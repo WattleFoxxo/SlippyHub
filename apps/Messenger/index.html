@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/water.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="/js/js.cookie.min.js"></script>    
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script type="text/javascript" src="lib/purify.min.js"></script>
+    </head>
+    <body>
+        <h1>Messenger</h1>
+        <br>
+        <select style="float: right;" id="MessageMode" onchange="updateMsg()">
+            <option value="rich" disabled>Message Mode</option>
+            <option value="rich">Rich</option>
+            <option value="raw">Raw</option>
+        </select>
+
+        <div style="display: flex;">
+            <input type="button" value="Clear" onclick="cls()">
+            <input type="button" value="Options" onclick="document.getElementById('dialog').showModal()">
+        </div>
+
+        <ul class="MessageBox" id="MessageBox">
+        </ul>
+        
+        <div style="display: flex;">
+            <input id="Address" type="text" placeholder="Address">
+            <select class="Select" id="AddressDropdown" onchange="selectContact()"></select>
+
+            <textarea class="Message" id="Message" placeholder="Message" type="button" value="Send"rows="1" cols="50" onclick="sendData()"></textarea>
+            <input class="Send" id="Send" type="button" value="Send" onclick="sendMessage()">
+        </div>
+
+        <dialog id="dialog">
+            <header>Messenger Options</header>
+
+            <h3>Contacts</h3>
+            <textarea id="ContactsTextarea" rows="6" cols="50" style="resize: none;" placeholder='Put your contacts here in the json format: "name":"address", eg. "AlexD":"192.168.0.512",' onchange="editContacts()"></textarea>
+            <br>
+            <form method="dialog" style="text-align: center;">
+                <button>Close</button>
+            </form>
+        </dialog>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/water.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>Home</h1>
+        <br>
+        <div class="Panel"><p style="float: left;">🏠 Address</p><p id="address" style="float: right;"></p></div>
+        <div class="Panel"><p style="float: left;">🕜 Uptime</p><p style="float: right;">0ms</p></div>
+        <div class="Panel"><p style="float: left;">🥵 Temperature</p><p style="float: right;">0°C</p></div>
+        
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io();
+
+            socket.on('slippyInfo', (localAddr) => {
+                document.getElementById("address").innerText = localAddr
+            });
+        </script>
+    </body>
+</html>

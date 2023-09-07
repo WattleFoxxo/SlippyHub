@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/water.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <h1>Settings</h1>
+
+        <form action="https://wattlefoxxo.com/alexd/">
+            <h2>Device Settings</h2>
+            
+            <label>Connection Type</label>
+            <select name="connection_type" id="DeviceConn" onchange="updateDeviceConn();">
+                <option value="serial">Serial</option>
+                <option value="tcp">TCP</option>
+            </select>
+
+            <div id="device_serial">
+                <label>Serial Port</label>
+                <input id="device_serial_port" placeholder="Port">
+                <label>Buad Rate</label>
+                <input id="device_serial_buad" type="number" placeholder="Buad">
+            </div>
+            <div id="device_tcp" hidden>
+                <label>IP address</label>
+                <input id="device_tcp_ip" placeholder="IP">
+                <label>Port</label>
+                <input id="device_tcp_port" type="number" placeholder="Port">
+            </div>
+
+            <h2>WebServer Settings</h2>
+
+            <label>Webserver Port</label>
+            <input id="webserver_port" type="number" placeholder="Port">
+
+            <h2>Slippy Settings</h2>
+
+            <label>Auto Restart</label>
+            <select name="connection_type" id="DeviceConn" onchange="updateDeviceConn();">
+                <option value="true">Enabled</option>
+                <option value="false">Disabled</option>
+            </select>
+
+            <label>Auto Restart Interval</label>
+            <input id="auto_restart_interval" type="number" placeholder="Interval">
+            
+            <label>Auto Restart Message</label>
+            <input id="auto_restart_message" placeholder="Message">
+            
+            <label>Auto Restart Message Interval</label>
+            <input id="auto_restart_message_interval" type="number" placeholder="Interval">
+            
+            <br>
+            <input type="submit" value="Save">
+        </form>
+        <script src="index.js"></script>
+    </body>
+</html>
+
+
+<!-- 
+{   
+    "device": {
+        "connection_type": "serial",
+        "serial_port": "/dev/ttyACM0",
+        "serial_buad": 115200,
+        "tcp_ip": "127.0.0.1",
+        "tcp_port": 23
+    },
+    "webserver": {
+        "webserver_port": 3000
+    },
+    "slippy": {
+        "auto_restart": false,
+        "auto_restart_interval": 30,
+        "auto_restart_message": "This node will restart if five minutes.",
+        "auto_restart_message_interval": 25
+}
+-->

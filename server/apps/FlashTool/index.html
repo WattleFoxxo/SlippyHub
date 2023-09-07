@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/water.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>Serial Flash Tool</h1>
+        <br>
+
+        <p style="margin-top: 0px;">Upload firmware.hex file and select your board</p>
+        <form action="/uploadfirmware" method="POST" enctype="multipart/form-data" id="uploadForm" onsubmit="document.getElementById('sub').disabled = true;">
+            <div style="display: flex;">
+                <input type="file" name="file" />
+                <select name="board">
+                    <option value="uno" disabled selected>Select Board</option>
+                    <option value="uno">Arduino Uno</option>
+                    <option value="mega">Arduino Mega</option>
+                    <option value="adk">Arduino ADK</option>
+                    <option value="leonardo">Arduino Leonardo</option>
+                    <option value="micro">Arduino Micro</option>
+                    <option value="nano (new bootloader)">Arduino Nano</option>
+                    <option value="nano">Arduino Nano Old</option>
+                </select>
+            </div>
+            <input id="sub" type="submit" value="Upload" />
+        </form>
+        <br>
+
+        <div id="responseDiv"></div>
+
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/water.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>Serial Monitor</h1>
+        <br>
+
+        <div class="flex" style="float: right;">
+            <div style="margin: 10px;">
+                <input type="checkbox" id="autoscroll" checked="true">
+                <label>Auto Scroll</label>
+            </div>
+
+            <div style="margin: 10px;">
+                <input type="checkbox" id="timestamps" checked="true" onclick="updateTimeStamps()">
+                <label>Time Stamps</label>
+            </div>
+            
+            <select id="lineEnding">
+                <option value="0">No Line Ending</option>
+                <option value="1">New Line</option>
+                <option value="2">Carriage Return</option>
+                <option value="3" selected="selected">Both NL & CR</option>
+            </select>
+
+        </div>
+        <div class="flex">
+            <input type="button" value="Clear" onclick="clearterm()">
+            <input type="button" value="Reset" onclick="resetterm()">
+        </div>
+        <ul class="terminal" id="terminal"></ul>
+        
+        <div class="flex">
+            <input class="commandbox" id="commandBox" placeholder="Message">
+            <input class="sendbutton" id="sendButton" type="button" value="Send" onclick="sendData()">
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

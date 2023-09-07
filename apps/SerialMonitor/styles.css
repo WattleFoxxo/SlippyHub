@@ -1,0 +1,29 @@
+body {
+    overflow: hidden;
+    height: 100%;
+}
+
+.terminal {
+    height: calc(100vh - 300px);
+    text-align: left;
+    background: #161f27;
+    color: whitesmoke;
+    border-radius: 6px;
+    list-style: none;
+    padding: 16px;
+    overflow: auto;
+    white-space: pre;
+}
+
+.flex {
+    display: flex;
+}
+
+.commandbox {
+    width: 80%;
+}
+
+.sendbutton {
+    margin-right: 0px;
+    width: 20%;
+}

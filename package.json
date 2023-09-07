@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "avrgirl-arduino": "^5.0.1",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.7.2",
+    "sse-express": "^1.0.2",
+    "stk500": "^2.0.3"
+  }
+}

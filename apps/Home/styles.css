@@ -1,0 +1,16 @@
+body {
+    overflow: hidden;
+    height: 100%;
+}
+
+.Panel {
+    background: #161f27;
+    color: whitesmoke;
+    border-radius: 6px;
+    list-style: none;
+    padding: 24px;
+    margin: 8px;
+    overflow: auto;
+    font-size: 48px;
+    white-space: pre;
+}

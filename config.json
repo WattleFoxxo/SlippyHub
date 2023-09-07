@@ -1,0 +1,18 @@
+{   
+    "device": {
+        "serial_port": "/dev/ttyACM0",
+        "serial_buad": 115200,
+        "tcp_mode": false,
+        "tcp_ip": "127.0.0.1",
+        "tcp_port": 23
+    },
+    "webserver": {
+        "port": 3000
+    },
+    "slippy": {
+        "auto_restart": false,
+        "auto_restart_interval": 30,
+        "auto_restart_message": "This node will restart if five minutes.",
+        "auto_restart_message_interval": 25
+    }
+}
