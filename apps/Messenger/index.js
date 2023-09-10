@@ -22,25 +22,30 @@ socket.on('slippyInfo', (localAddr) => {
 
 // Example: 111.0.20.6,55.16.16.21,22341,1,AT+PING,-111,-5.7500000000
 socket.on('slippyRecive', (sourceAddress, destinationAddress, packetId, packetHops, data, rssi, snr) => {
-    addMessage(sourceAddress, destinationAddress, data);
+    
+    from = sourceAddress;
+    if (Object.keys(contacts).find(key => contacts[key] === sourceAddress) != undefined) {
+        from = `${Object.keys(contacts).find(key => contacts[key] === sourceAddress)} (${sourceAddress})`;
+    }
+    
+    prefix = "";
+    if (destinationAddress == localAddress) {
+        prefix = `direct message from ${from}`;
+    } else {
+        prefix = `global message from ${from}`;
+    }
+    addMessage(prefix, data);
 });
 
-function addMessage(source, dest, msg) {
+function addMessage(prefix, msg) {
     var messageBox = document.getElementById('MessageBox');
     var messageItem = document.createElement("li");
 
     messageItem.classList = ["MessageItem"];
-    var start = "";
-    if (dest == localAddress) {
-        start = "Direct message ";
-    } else if (dest == "255.255.255.255") {
-        start = "Message ";
-    }
-
     const purify = DOMPurify(window);
 
     var time = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-    var tag = `<p style="color: lightslategray;">${start}from ${source} at ${time}</p>`
+    var tag = `<p style="color: lightslategray;">${prefix} at ${time}</p>`
     messageItem.innerHTML = purify.sanitize(`<p style="color: lightslategray; margin: 0px;">${tag}</p><div class="MessageBox_MD">${marked.parse(msg)}</div><div class="MessageBox_RAW"><p>${msg}</p></div>`);
     messageBox.appendChild(messageItem);
     messageBox.scrollTop = messageBox.scrollHeight;
@@ -57,19 +62,38 @@ function sendMessage() {
         return;
     }
 
+    if (addr.value == localAddress) {
+        console.log("invalid address");
+        return;
+    }
+
     if (msg.value.length < 1 || msg.value.length > 127) {
         console.log("invalid message lenght");
         return;
     }
 
     socket.emit('slippySend', addr.value, msg.value);
-    addMessage(localAddress, addr.value, msg.value);
+
+    to = addr.value;
+    if (Object.keys(contacts).find(key => contacts[key] === addr.value) != undefined) {
+        to = `${Object.keys(contacts).find(key => contacts[key] === addr.value)} (${addr.value})`;
+    }
+
+    prefix = "";
+    if (addr.value == "255.255.255.255") {
+        prefix = `global message to Everyone (255.255.255.255)`;
+    } else {
+        prefix = `direct message to ${to}`;
+    }
+    
+    addMessage(prefix, msg.value);
+
     msg.value = "";
 }
 
 function updateMsg() {
     var messageMode = document.getElementById('MessageMode').value;
-    console.log(messageMode);
+
     if (messageMode == "raw") {
         document.querySelectorAll('.MessageBox_MD').forEach(function(item) {
             item.hidden = true;
@@ -156,4 +180,3 @@ input.addEventListener("keypress", function(event) {
 }); 
 
 loadSettings();
-// 
