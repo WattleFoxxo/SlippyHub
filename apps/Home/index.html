@@ -9,16 +9,23 @@
         <h1>Home</h1>
         <br>
         <div class="Panel"><p style="float: left;">🏠 Address</p><p id="address" style="float: right;"></p></div>
-        <div class="Panel"><p style="float: left;">🕜 Uptime</p><p style="float: right;">0ms</p></div>
-        <div class="Panel"><p style="float: left;">🥵 Temperature</p><p style="float: right;">0°C</p></div>
+        <div class="Panel"><p style="float: left;">🕜 Uptime</p><p id="uptime" style="float: right;"></p></div>
+        <div class="Panel"><p style="float: left;">🥵 Temperature</p><p id="temp" style="float: right;"></p></div>
         
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const socket = io();
 
-            socket.on('slippyInfo', (localAddr) => {
-                document.getElementById("address").innerText = localAddr
-            });
+            function updateInfo() {
+                socket.emit("slippy::info", (response) => {
+                    document.getElementById("address").innerText = response.address;
+                    document.getElementById("uptime").innerText = `${Math.round(parseInt(response.uptime)/60000)} minutes`;
+                    document.getElementById("temp").innerText = `${response.temperature}°C`;
+                });
+            }
+
+            updateInfo();
+            setInterval(updateInfo, 30 * 1000);
         </script>
     </body>
 </html>

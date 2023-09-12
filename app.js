@@ -8,8 +8,11 @@ const fs = require('fs');
 const path = require('path');
 const multer  = require('multer')
 const bodyParser = require('body-parser');
+const log4js = require("log4js");
 
 const config = require('./config.json');
+
+require('mkdirp').sync('server/logs');
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +27,15 @@ const parser = port.pipe(new ReadlineParser({
     delimiter: '\n'
 }));
 
-const api = require("./server/modules/api")(config, app, io, port, parser);
+log4js.configure({
+    appenders: {
+        serial: { type: "file", filename: "server/logs/ddmmYY.log" },
+        slippy: { type: "file", filename: "server/logs/ddmmYY.log" }
+    },
+    categories: { default: { appenders: ["serial", "slippy"], level: "trace" } },
+});
+
+const api = require("./server/modules/api")(config, app, io, port, parser, log4js);
 
 app.use(express.static('server/public'));
 app.use("/apps", express.static('apps'));
@@ -77,13 +88,6 @@ app.post('/uploadfirmware', upload.single('file'), (req, res) => {
     })
     
 });
-
-app.get('/api/test', (req, res) => {
-    res.setHeader('Content-Type', 'text/plain');
-    res.write('Firmware uploaded! Now flashing...');
-    res.write('Firmware flashed successfully!');
-    res.end();
-})
 
 server.listen(config.webserver.port, () => {
     console.log(`listening on *:${config.webserver.port}`);

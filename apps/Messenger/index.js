@@ -16,12 +16,12 @@ renderer.image = (href, title, text) => {
 
 marked.use({renderer})
 
-socket.on('slippyInfo', (localAddr) => {
+socket.on('slippy::info', (localAddr) => {
     localAddress = localAddr;
 });
 
 // Example: 111.0.20.6,55.16.16.21,22341,1,AT+PING,-111,-5.7500000000
-socket.on('slippyRecive', (sourceAddress, destinationAddress, packetId, packetHops, data, rssi, snr) => {
+socket.on('slippy::recive', (sourceAddress, destinationAddress, packetId, packetHops, data, rssi, snr) => {
     
     from = sourceAddress;
     if (Object.keys(contacts).find(key => contacts[key] === sourceAddress) != undefined) {
@@ -72,7 +72,7 @@ function sendMessage() {
         return;
     }
 
-    socket.emit('slippySend', addr.value, msg.value);
+    socket.emit('slippy::send', addr.value, msg.value);
 
     to = addr.value;
     if (Object.keys(contacts).find(key => contacts[key] === addr.value) != undefined) {

@@ -9,7 +9,7 @@ lineEnding = {
     "3": "\r\n",
 }
 
-socket.on('serialRecive', (data, timestamp) => {
+socket.on('serial::recive', (data, timestamp) => {
     var terminal = document.getElementById('terminal');
     var newLine = document.createElement("li");
     newLine.style = "font-family: monospace;"
@@ -35,7 +35,7 @@ function updateTimeStamps() {
 
 function sendData() {
     var data = document.getElementById('commandBox');
-    socket.emit('serialSend', data.value+lineEnding[document.getElementById('lineEnding').value]);
+    socket.emit('serial::send', data.value+lineEnding[document.getElementById('lineEnding').value]);
     data.value = "";
 }
 
@@ -44,7 +44,7 @@ function clearterm() {
 }
 
 function resetterm() {
-    socket.emit('serialReset');
+    socket.emit('serial::reset');
 }
 
 var input = document.getElementById("commandBox");
