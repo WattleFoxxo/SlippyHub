@@ -16,24 +16,23 @@ renderer.image = (href, title, text) => {
 
 marked.use({renderer})
 
-socket.on('slippy::info', (localAddr) => {
-    localAddress = localAddr;
+socket.on('slippy::info', (object) => {
+    localAddress = object.address;
 });
 
-// Example: 111.0.20.6,55.16.16.21,22341,1,AT+PING,-111,-5.7500000000
-socket.on('slippy::recive', (sourceAddress, destinationAddress, packetId, packetHops, data, rssi, snr) => {
+socket.on('slippy::recive', (address, data, global) => {
     
-    from = sourceAddress;
+    from = address;
     if (Object.keys(contacts).find(key => contacts[key] === sourceAddress) != undefined) {
         from = `${Object.keys(contacts).find(key => contacts[key] === sourceAddress)} (${sourceAddress})`;
     }
     
     prefix = "";
-    if (destinationAddress == localAddress) {
-        prefix = `direct message from ${from}`;
-    } else {
-        prefix = `global message from ${from}`;
-    }
+    prefix = `direct message from ${from}`;
+    // if (address == localAddress) {
+    // } else {
+    //     prefix = `global message from ${from}`;
+    // }
     addMessage(prefix, data);
 });
 
@@ -55,9 +54,9 @@ function addMessage(prefix, msg) {
 function sendMessage() {
     var addr = document.getElementById('Address');
     var msg = document.getElementById('Message');
-    var addrRegx = /\b(?:\d{1,3}\.){3}\d{1,3}\b/;
+    // var addrRegx = /\b(?:\d{1,3}\.){3}\d{1,3}\b/;
 
-    if (!addrRegx.test(addr.value)) {
+    if (parseInt(addr.value) < 1 || parseInt(addr.value) > 255) { // !addrRegx.test(addr.value)
         console.log("invalid address");
         return;
     }
@@ -80,8 +79,8 @@ function sendMessage() {
     }
 
     prefix = "";
-    if (addr.value == "255.255.255.255") {
-        prefix = `global message to Everyone (255.255.255.255)`;
+    if (addr.value == "255") {
+        prefix = `global message to Everyone (255)`;
     } else {
         prefix = `direct message to ${to}`;
     }

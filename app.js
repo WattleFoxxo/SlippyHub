@@ -29,8 +29,8 @@ const parser = port.pipe(new ReadlineParser({
 
 log4js.configure({
     appenders: {
-        serial: { type: "file", filename: "server/logs/ddmmYY.log" },
-        slippy: { type: "file", filename: "server/logs/ddmmYY.log" }
+        serial: { type: "file", filename: "server/logs/serial.log" },
+        slippy: { type: "file", filename: "server/logs/slippy.log" }
     },
     categories: { default: { appenders: ["serial", "slippy"], level: "trace" } },
 });

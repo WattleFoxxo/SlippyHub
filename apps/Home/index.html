@@ -10,7 +10,6 @@
         <br>
         <div class="Panel"><p style="float: left;">🏠 Address</p><p id="address" style="float: right;"></p></div>
         <div class="Panel"><p style="float: left;">🕜 Uptime</p><p id="uptime" style="float: right;"></p></div>
-        <div class="Panel"><p style="float: left;">🥵 Temperature</p><p id="temp" style="float: right;"></p></div>
         
         <script src="/socket.io/socket.io.js"></script>
         <script>
@@ -20,7 +19,6 @@
                 socket.emit("slippy::info", (response) => {
                     document.getElementById("address").innerText = response.address;
                     document.getElementById("uptime").innerText = `${Math.round(parseInt(response.uptime)/60000)} minutes`;
-                    document.getElementById("temp").innerText = `${response.temperature}°C`;
                 });
             }
 
