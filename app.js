@@ -9,6 +9,7 @@ const path = require('path');
 const multer  = require('multer')
 const bodyParser = require('body-parser');
 const log4js = require("log4js");
+const axios = require('axios');
 
 const config = require('./config.json');
 
@@ -41,6 +42,7 @@ app.use(express.static('server/public'));
 app.use("/apps", express.static('apps'));
 app.use("/apps", express.static('server/apps'));
 
+/* Apps service */
 
 app.get('/api/installedapps', (req, res) => {
     var appList = {}
@@ -56,6 +58,8 @@ app.get('/api/installedapps', (req, res) => {
     });
 })
 
+/* Remote flash service */
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'server/uploads/');
@@ -67,7 +71,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.post('/uploadfirmware', upload.single('file'), (req, res) => {
+app.post('/api/uploadfirmware', upload.single('file'), (req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.setHeader('Transfer-Encoding', 'chunked');
     res.write('Flashing firmware...');
@@ -87,6 +91,19 @@ app.post('/uploadfirmware', upload.single('file'), (req, res) => {
         res.end();
     })
     
+});
+
+/* Proxy service */
+
+app.get('/api/proxy', async (req, res) => {
+    const targetUrl = req.query.url;
+    try {
+        const response = await axios.get(targetUrl, { responseType: 'stream' });
+        res.set('Content-Type', response.headers['content-type']);
+        response.data.pipe(res);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
 server.listen(config.webserver.port, () => {
