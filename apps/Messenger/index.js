@@ -6,13 +6,21 @@ var localAddress = "0.0.0.0";
 const renderer = new marked.Renderer();
 renderer.html = (html) => html;
 
-renderer.image = (href, title, text) => {
+renderer.link = (href, title, text) => {
     if (href.endsWith('.mp4')) {
         return `<video controls><source src="${href}" type="video/mp4"></video>`;
     } else {
-        return `<img src="${href}" alt="${text}" title="${title}" />`;
+        return `<a href="${href}" title="${title}">${text}</a>`;
     }
-};
+}
+
+// renderer.image = (href, title, text) => {
+//     if (href.endsWith('.mp4')) {
+//         return `<video controls><source src="${href}" type="video/mp4"></video>`;
+//     } else {
+//         return `<img src="${href}" alt="${text}" title="${title}" />`;
+//     }
+// };
 
 marked.use({renderer})
 
