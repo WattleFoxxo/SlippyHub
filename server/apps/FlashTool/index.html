@@ -10,7 +10,7 @@
         <br>
 
         <p style="margin-top: 0px;">Upload firmware.hex file and select your board</p>
-        <form action="/uploadfirmware" method="POST" enctype="multipart/form-data" id="uploadForm" onsubmit="document.getElementById('sub').disabled = true;">
+        <form action="/api/uploadfirmware" method="POST" enctype="multipart/form-data" id="uploadForm" onsubmit="document.getElementById('sub').disabled = true;">
             <div style="display: flex;">
                 <input type="file" name="file" />
                 <select name="board">
