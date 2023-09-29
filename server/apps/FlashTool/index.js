@@ -6,7 +6,7 @@ form.addEventListener('submit', function (event) {
             
     const formData = new FormData(form);
             
-    fetch('/uploadfirmware', {
+    fetch('/api/uploadfirmware', {
         method: 'POST',
         body: formData,
     }).then((response) => {
