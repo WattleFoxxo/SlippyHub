@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <button style="float: right;" onclick="updateInfo()">Refresh</button>
         <h1>Home</h1>
         <br>
         <div class="Panel"><p style="float: left;">🏠 Address</p><p id="address" style="float: right;"></p></div>
@@ -23,7 +24,6 @@
             }
 
             updateInfo();
-            setInterval(updateInfo, 30 * 1000);
         </script>
     </body>
 </html>
