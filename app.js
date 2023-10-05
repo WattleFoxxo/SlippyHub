@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const multer  = require('multer')
 const bodyParser = require('body-parser');
-const log4js = require("log4js");
+// const log4js = require("log4js");
 const axios = require('axios');
 
 const config = require('./config.json');
@@ -28,15 +28,15 @@ const parser = port.pipe(new ReadlineParser({
     delimiter: '\n'
 }));
 
-log4js.configure({
-    appenders: {
-        serial: { type: "file", filename: "server/logs/serial.log" },
-        slippy: { type: "file", filename: "server/logs/slippy.log" }
-    },
-    categories: { default: { appenders: ["serial", "slippy"], level: "trace" } },
-});
+// log4js.configure({
+//     appenders: {
+//         serial: { type: "file", filename: "server/logs/serial.log" },
+//         slippy: { type: "file", filename: "server/logs/slippy.log" }
+//     },
+//     categories: { default: { appenders: ["serial", "slippy"], level: "trace" } },
+// });
 
-const api = require("./server/modules/api")(config, app, io, port, parser, log4js);
+const api = require("./server/modules/api")(config, app, io, port, parser);
 
 app.use(express.static('server/public'));
 app.use("/apps", express.static('apps'));
