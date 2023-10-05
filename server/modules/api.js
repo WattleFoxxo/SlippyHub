@@ -1,8 +1,8 @@
-module.exports = function(config, app, io, port, parser, log4js) {
+module.exports = function(config, app, io, port, parser) {
     /* api.js */
 
-    var serialLogger = log4js.getLogger("serial");
-    var slippyLogger = log4js.getLogger("slippy");
+    // var serialLogger = log4js.getLogger("serial");
+    // var slippyLogger = log4js.getLogger("slippy");
 
     var deviceInfo = {
         "address":0,
@@ -15,7 +15,8 @@ module.exports = function(config, app, io, port, parser, log4js) {
         var currentTime = new Date();
         var timestamp = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}.${currentTime.getMilliseconds()}`
         io.emit('serial::recive', data, timestamp);
-        serialLogger.info(`[serial::in] ${data}`);
+        console.log(`[serial::in] ${data}`);
+        // serialLogger.info(`[serial::in] ${data}`);
 
         /* Example message: 
             -- Message --
@@ -28,14 +29,16 @@ module.exports = function(config, app, io, port, parser, log4js) {
         if (data.startsWith("JSON: \"message\":")) {
             var jsonObject = JSON.parse(data.replace("JSON: \"message\":", ""))
 
-            slippyLogger.info(`[slippy::in] ${JSON.stringify(jsonObject)}`);
+            // slippyLogger.info(`[slippy::in] ${JSON.stringify(jsonObject)}`);
+            console.log(`[slippy::in] ${JSON.stringify(jsonObject)}`);
             io.emit('slippy::recive', jsonObject.address, atob(jsonObject.data), timestamp, false);
         }
 
         if (data.startsWith("JSON: \"broadcast_message\":")) {
             var jsonObject = JSON.parse(data.replace("JSON: \"broadcast_message\":", ""))
 
-            slippyLogger.info(`[slippy::in] ${JSON.stringify(jsonObject)}`);
+            // slippyLogger.info(`[slippy::in] ${JSON.stringify(jsonObject)}`);
+            console.log(`[slippy::in] ${JSON.stringify(jsonObject)}`);
             io.emit('slippy::recive', jsonObject.address, atob(jsonObject.data), timestamp, true);
         }
 
@@ -56,13 +59,15 @@ module.exports = function(config, app, io, port, parser, log4js) {
     io.on('connection', (socket) => {
         /* SERIAL */
         socket.on('serial::send', (data) => {
-            serialLogger.info(`[serial::out] ${data}`);
+            // serialLogger.info(`[serial::out] ${data}`);
+            console.log(`[serial::out] ${data}`);
             port.write(data);
         });
 
         socket.on('serial::reset', () => {
             port.close();
-            serialLogger.info("[serial::reset]");
+            // serialLogger.info("[serial::reset]");
+            console.log(`[serial::reset]`);
             setTimeout(function() {
                 port.open();
             }, 1000);
@@ -71,14 +76,16 @@ module.exports = function(config, app, io, port, parser, log4js) {
         /* SLIPPY */
         socket.on('slippy::send', (address, data) => {
             var addr = address.split(".");
-            slippyLogger.info(`[slippy::out] ${address}, ${data}`);
+            // slippyLogger.info(`[slippy::out] ${address}, ${data}`);
+            console.log(`[slippy::out] ${address}, ${data}`);
             port.write(`send64 ${address} ${btoa(data)}\n`);
         });
 
         socket.on('slippy::info', (callback) => {
             port.write("info\n");
             setTimeout(function() {
-                slippyLogger.info(`[slippy::info] ${deviceInfo}`);
+                // slippyLogger.info(`[slippy::info] ${deviceInfo}`);
+                console.log(`[slippy::info] ${deviceInfo}`);
                 callback(deviceInfo);
             }, 1000);
         });
